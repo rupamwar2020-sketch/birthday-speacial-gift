@@ -1,0 +1,98 @@
+
+<!DOCTYPE html><html><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&family=Dancing+Script:wght@500;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;overflow-x:hidden}
+body{min-height:100vh;background:linear-gradient(180deg,#fff0f3 0%, #ffccd5 100%);color:#4a1a2a;font-family:'Poppins',sans-serif;display:flex;justify-content:center;text-align:center}
+.container{width:100%;max-width:400px;padding:22px 16px 36px;display:flex;flex-direction:column;align-items:center}
+.name-fancy{font-family:'Great Vibes',cursive;font-size:clamp(40px,10vw,54px);background:linear-gradient(90deg,#d90429,#ff4d6d);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:inline-block}
+.name-small{font-family:'Great Vibes',cursive;font-size:clamp(26px,6.5vw,34px);color:#d90429}
+.small{font-size:10px;opacity:0.6;letter-spacing:2px;text-transform:uppercase}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;margin:8px 5px;padding:12px 28px;background:#ff4d6d;color:white;border-radius:30px;text-decoration:none;font-weight:600;font-size:15px;box-shadow:0 6px 18px rgba(255,77,109,0.35);border:none;cursor:pointer}
+.falling{position:fixed;top:-60px;font-size:26px;animation:fall linear forwards;pointer-events:none;z-index:999}
+@keyframes fall{to{transform:translateY(110vh) rotate(360deg)}}
+@keyframes beat{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+.bow-area{position:relative;width:340px;height:260px;margin:18px auto;background:linear-gradient(180deg,rgba(255,255,255,0.8),rgba(255,255,255,0.4));border-radius:22px;box-shadow:0 12px 30px rgba(0,0,0,0.1);overflow:hidden;border:1px solid rgba(255,255,255,0.8)}
+.arrow-body{display:flex;align-items:center;filter:drop-shadow(0 3px 6px rgba(0,0,0,0.2))}
+.shaft{width:100px;height:6px;background:linear-gradient(90deg,#8B4513,#D2691E,#8B4513);border-radius:3px;position:relative}
+.shaft::after{content:'';position:absolute;right:-2px;top:50%;transform:translateY(-50%);width:0;height:0;border-left:14px solid #d90429;border-top:7px solid transparent;border-bottom:7px solid transparent}
+.feather{font-size:24px;margin-right:-6px;transform:rotate(10deg)}
+</style>
+</head><body><div class="container">
+<div id="enterOverlay" style="position:fixed;inset:0;z-index:9999;background:linear-gradient(135deg,#ff8fab,#ff4d6d);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:white;cursor:pointer">
+<div style="font-size:70px;animation:beat 1s infinite">❤️</div>
+<h1 style="font-family:'Great Vibes';font-size:34px;color:white;margin:12px 0">For Sayantika</h1>
+<div style="background:white;color:#ff4d6d;padding:14px 28px;border-radius:30px;font-weight:bold;font-size:18px;margin-top:10px;box-shadow:0 6px 20px rgba(0,0,0,0.2)">Tap To Start With Music 🎵</div>
+<p style="font-size:12px;margin-top:12px;opacity:0.9">Music Will Play Till The End</p>
+</div>
+
+<p class="small">Shoot The Arrow To My Heart</p>
+<span class="name-fancy">Sayantika</span>
+
+<div class="bow-area" id="bowArea">
+  <div id="bow" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:82px;cursor:pointer;z-index:2;transition:transform 0.15s">🏹</div>
+  <div id="arrow" style="position:absolute;left:85px;top:50%;transform:translateY(-50%);z-index:3;pointer-events:none;transition:transform 0.8s cubic-bezier(0.3,0,0.2,1)">
+    <div class="arrow-body">
+      <div class="feather">🪶</div>
+      <div class="shaft"></div>
+    </div>
+  </div>
+  <div id="target" style="position:absolute;right:20px;top:50%;transform:translateY(-50%);font-size:88px;z-index:1;transition:all 0.5s">❤️</div>
+  <div id="trail" style="position:absolute;left:90px;top:50%;height:2px;background:linear-gradient(90deg,transparent,rgba(255,77,109,0.4));width:0;transform:translateY(-50%);z-index:1;pointer-events:none"></div>
+</div>
+
+<p id="hint" class="small">Tap The Bow 🏹 To Shoot My Heart</p>
+<div id="msg" style="display:none"><h1 style="font-family:'Great Vibes';font-size:38px;color:#d90429;line-height:1.2">Still You.<br>Always You.</h1><p>My Favorite Person, <span class="name-small">Sayantika</span></p></div>
+<div id="next" style="display:none"><a class="btn" href="page2.html">Next →</a></div>
+
+<script>
+let overlay=document.getElementById('enterOverlay');
+overlay.addEventListener('click', ()=>{ overlay.style.transition='all 0.6s'; overlay.style.opacity='0'; overlay.style.transform='scale(1.2)'; setTimeout(()=>overlay.remove(),600); });
+let shot=false;
+document.getElementById('bow').addEventListener('click', function(){
+ if(shot) return; shot=true;
+ this.style.transform='translateY(-50%) scale(0.85)';
+ let arrow=document.getElementById('arrow');
+ let trail=document.getElementById('trail');
+ trail.style.transition='width 0.6s ease-out';
+ trail.style.width='150px';
+ arrow.style.transform='translateY(-50%) translateX(158px)';
+ document.getElementById('hint').textContent='Flying... 💘';
+ setTimeout(()=>{
+   let t=document.getElementById('target');
+   t.style.transform='translateY(-50%) scale(0) rotate(180deg)';
+   arrow.style.opacity='0';
+   trail.style.opacity='0';
+   t.innerHTML='💥';
+   for(let i=0;i<60;i++){let s=document.createElement('div');s.textContent=['💖','❤️','💗','✨','💘','💝'][Math.floor(Math.random()*6)];s.className='falling';s.style.left=Math.random()*100+'vw';s.style.animationDuration=(1+Math.random()*2.2)+'s';s.style.fontSize=(18+Math.random()*24)+'px';document.body.appendChild(s);setTimeout(()=>s.remove(),4000);}
+   setTimeout(()=>{ t.innerHTML='💘'; t.style.transform='translateY(-50%) scale(1.4)'; document.getElementById('msg').style.display='block'; document.getElementById('next').style.display='block'; document.getElementById('hint').textContent='Bullseye! You Hit My Heart 💘'; },600);
+ },800);
+});
+</script>
+</div>
+<div id="musicBtn" style="position:fixed;top:12px;right:12px;z-index:1000;background:#ff4d6d;color:white;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.3)">🎵</div>
+<audio id="bgMusic" loop preload="auto" src="song.mp3" playsinline></audio>
+<script>
+let audio=document.getElementById('bgMusic'), btn=document.getElementById('musicBtn'), playing=false, audioCtx=null;
+audio.volume=0.6;
+// continuous music logic
+let savedTime=localStorage.getItem('sayantika_music_time');
+let wasPlaying=localStorage.getItem('sayantika_music_playing');
+if(savedTime){ try{ audio.currentTime=parseFloat(savedTime); }catch(e){} }
+function ensureCtx(){ if(!audioCtx){ audioCtx=new (window.AudioContext||window.webkitAudioContext)(); } if(audioCtx.state==='suspended') audioCtx.resume(); }
+function toggleMusic(){ ensureCtx(); if(playing){audio.pause();btn.textContent='🔇';playing=false; localStorage.setItem('sayantika_music_playing','0');} else {audio.play().then(()=>{btn.textContent='🎵';playing=true; localStorage.setItem('sayantika_music_playing','1');}).catch(()=>{});} }
+btn.addEventListener('click', toggleMusic);
+function startMusic(){ ensureCtx(); if(!playing){ audio.play().then(()=>{playing=true;btn.textContent='🎵'; localStorage.setItem('sayantika_music_playing','1');}).catch(()=>{}); } }
+window.addEventListener('touchstart', startMusic, {once:true});
+window.addEventListener('click', startMusic, {once:true});
+// auto resume if was playing before
+if(wasPlaying==='1'){ setTimeout(()=>{ audio.play().then(()=>{playing=true; btn.textContent='🎵';}).catch(()=>{}); },300); }
+// save time continuously
+setInterval(()=>{ if(!audio.paused){ localStorage.setItem('sayantika_music_time', audio.currentTime); } }, 400);
+window.addEventListener('beforeunload', ()=>{ localStorage.setItem('sayantika_music_time', audio.currentTime); localStorage.setItem('sayantika_music_playing', playing?'1':'0'); });
+function playTick(){ try{ ensureCtx(); let o=audioCtx.createOscillator(); let g=audioCtx.createGain(); o.type='sine'; o.frequency.setValueAtTime(900, audioCtx.currentTime); o.frequency.exponentialRampToValueAtTime(400, audioCtx.currentTime+0.15); g.gain.setValueAtTime(0.18, audioCtx.currentTime); g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime+0.25); o.connect(g); g.connect(audioCtx.destination); o.start(); o.stop(audioCtx.currentTime+0.25); }catch(e){} }
+document.addEventListener('click', (e)=>{ let t=e.target; if(t.closest('.btn')||t.closest('.card')||t.closest('.envelope')||t.closest('#bow')||t.closest('.heart-target')||t.closest('#box')||t.closest('#door')){ playTick(); } });
+</script>
+</body></html>
